@@ -13,5 +13,5 @@ To create a money input use:
 ```php
     use Michaeld555\SecureShell\MoneyInput;
 
-    Money::make('value')
+    MoneyInput::make('value')
     ->prefix('R$')
