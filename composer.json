@@ -1,0 +1,30 @@
+{
+    "name": "michaeld555/filament-money",
+    "description": "Money field for filament forms",
+    "keywords": [
+        "michaeld555",
+        "laravel",
+        "filament-money",
+        "money-input"
+    ],
+    "homepage": "https://github.com/michaeld555/filament-money",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Michael Douglas",
+            "email": "usermich999@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "filament/filament": "^3.0",
+        "illuminate/contracts": "^10.0 || ^11.0",
+        "laravellegends/pt-br-validator": "^10.0 || ^11.0",
+        "spatie/laravel-package-tools": "^1.14.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Michaeld555\\SecureShell\\": "src/"
+        }
+    }
+}
