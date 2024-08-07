@@ -9,24 +9,29 @@ class MoneyInput extends TextInput
 {
     protected string|int|float|null $initialValue = '0,00';
 
+    protected int|null $precision = 2;
+
     protected function setUp(): void
     {
         $this
             ->prefix('R$')
             ->maxLength(13)
-            ->extraAlpineAttributes([
-                'x-mask:dynamic' => 'function() {
-                    var money = $el.value;
-                    money = money.replace(/\D/g, \'\');
-                    money = (parseFloat(money) / 100).toLocaleString(\'pt-BR\', { minimumFractionDigits: 2 });
-                    $el.value = money === \'NaN\' ? \'0,00\' : money;
-                }',
-            ])
-            ->prefix('R$')
-            ->maxLength(13)
+            ->extraAlpineAttributes(function () {
+                return [
+                    'x-mask:dynamic' => 'function() {
+                        var precision = ' . $this->precision . ';
+                        var money = $el.value;
+                        var divisor = Math.pow(10, precision);
+
+                        money = money.replace(/\D/g, \'\');
+                        money = (parseFloat(money) / divisor).toLocaleString(\'pt-BR\', { minimumFractionDigits: precision, maximumFractionDigits: precision });
+                        $el.value = money === \'NaN\' ? \'0,\' + \'0\'.repeat(precision) : money;
+                    }',
+                ];
+            })
             ->dehydrateMask()
             ->default(0.00)
-            ->formatStateUsing(fn($state) => $state ? number_format(floatval($state), 2, ',', '.') : $this->initialValue);
+            ->formatStateUsing(fn ($state) => $state ? number_format(floatval($state), $this->precision, ',', '.') : $this->initialValue);
     }
 
     public function dehydrateMask(bool|\Closure $condition = true): static
@@ -34,14 +39,14 @@ class MoneyInput extends TextInput
 
         if ($condition) {
             $this->dehydrateStateUsing(
-                fn($state): ?float => $state ?
-                floatval(
-                    Str::of($state)
-                        ->replace('.', '')
-                        ->replace(',', '.')
-                        ->toString()
-                ) :
-                null
+                fn ($state): ?float => $state ?
+                    floatval(
+                        Str::of($state)
+                            ->replace('.', '')
+                            ->replace(',', '.')
+                            ->toString()
+                    ) :
+                    null
             );
         } else {
             $this->dehydrateStateUsing(null);
@@ -53,6 +58,13 @@ class MoneyInput extends TextInput
     public function initialValue(null|string|int|float|\Closure $value = '0,00'): static
     {
         $this->initialValue = $value;
+
+        return $this;
+    }
+
+    public function precision(null|int $precision = 2): static
+    {
+        $this->precision = $precision;
 
         return $this;
     }
