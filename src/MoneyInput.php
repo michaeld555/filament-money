@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 class MoneyInput extends TextInput
 {
+
     protected string|int|float|null $initialValue = '0,00';
 
     protected int|null $precision = 2;
@@ -55,6 +56,15 @@ class MoneyInput extends TextInput
         return $this;
     }
 
+    public function precision(null|int $precision = 2): static
+    {
+        $this->precision = $precision;
+
+        $this->initialValue = '0,'.str_repeat('0', $precision);
+
+        return $this;
+    }
+
     public function initialValue(null|string|int|float|\Closure $value = '0,00'): static
     {
         $this->initialValue = $value;
@@ -62,10 +72,4 @@ class MoneyInput extends TextInput
         return $this;
     }
 
-    public function precision(null|int $precision = 2): static
-    {
-        $this->precision = $precision;
-
-        return $this;
-    }
 }
