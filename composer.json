@@ -1,6 +1,7 @@
 {
     "name": "michaeld555/filament-money",
     "description": "Money field for filament forms",
+    "type": "library",
     "keywords": [
         "michaeld555",
         "laravel",
@@ -16,15 +17,14 @@
         }
     ],
     "require": {
-        "php": ">=8.0",
-        "filament/filament": "^3.0",
-        "illuminate/contracts": "^10.0 || ^11.0",
-        "laravellegends/pt-br-validator": "^10.0 || ^11.0",
-        "spatie/laravel-package-tools": "^1.14.0"
+        "php": "^8.1 || ^8.2 || ^8.3 || ^8.4",
+        "filament/forms": "^3.0 || ^4.0 || ^5.0",
+        "illuminate/support": "^10.0 || ^11.0 || ^12.0 || ^13.0"
     },
     "autoload": {
         "psr-4": {
-            "Michaeld555\\SecureShell\\": "src/"
+            "Michaeld555\\SecureShell\\": "src/",
+            "Michaeld555\\FilamentMoney\\": "src/FilamentMoney/"
         }
     }
 }
